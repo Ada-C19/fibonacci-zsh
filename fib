@@ -1,0 +1,27 @@
+#!/usr/bin/env zsh
+
+# error if we didn't get a value
+if [[ $# -ne 1 ]]; then
+    echo "Usage: $0 <fibonacci #>"
+    exit 1
+fi
+
+fib_impl() {
+    local N=$(($1))
+
+    # base case
+    if [[ $N -eq 0 || $N -eq 1 ]]; then
+        echo $N
+        return 0
+    fi
+
+    # recursive case: fib(n) = fib(n-1) + fib(n-2)
+    local NM1=$(($N - 1))
+    local NM2=$(($N - 2))
+    local FIB_NM1=$(fib_impl $NM1)
+    local FIB_NM2=$(fib_impl $NM2)
+    local FIB_N=$(($FIB_NM1 + $FIB_NM2))
+    echo $FIB_N
+}
+
+fib_impl $1
